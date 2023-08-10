@@ -1,0 +1,507 @@
+{
+	"info": {
+		"_postman_id": "34748ce8-0022-4d76-879d-c963bbb480af",
+		"name": "restful-booker",
+		"description": "[resource]()  \n\nthis is the api collection for given resource to demonstrate my skills in postman automation.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "/auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var actual = pm.response.json();\r",
+									"\r",
+									"pm.environment.set(\"token\", actual.token);\r",
+									"\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Token is present and not empty\", function () {\r",
+									"    pm.expect(actual.token).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has a value\", function () {\r",
+									"    pm.expect(actual).to.not.be.null;\r",
+									"    pm.expect(actual).to.not.be.undefined;\r",
+									"    pm.expect(actual).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is within acceptable range\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500); \r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type header is correct\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "6d84be0c-a541-4839-bdbf-e247506e7eff"
+							}
+						}
+					],
+					"_postman_id": "4beaddc3-f1ae-473e-a164-1b758492ba48",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"{{username}}\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+							"options": {}
+						},
+						"url": "{{url}}/auth"
+					},
+					"response": []
+				},
+				{
+					"name": "/auth_bad_credentials_check",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var actual = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response has a value\", function () {\r",
+									"    pm.expect(actual).to.not.be.null;\r",
+									"    pm.expect(actual).to.not.be.undefined;\r",
+									"    pm.expect(actual).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Bad credentials check\", function () {\r",
+									"    pm.expect(actual.reason).to.eql(\"Bad credentials\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "9b5211d6-cfb6-4b41-85f4-efc062d07f14"
+							}
+						}
+					],
+					"_postman_id": "66ccf5b3-c05c-4b0a-b7e6-4aa16e514d98",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"111\",\r\n    \"password\" : \"111\"\r\n}",
+							"options": {}
+						},
+						"url": "{{url}}/auth"
+					},
+					"response": []
+				}
+			],
+			"_postman_id": "bfe34b61-75bb-4783-a699-496433fd22e5"
+		},
+		{
+			"name": "booking",
+			"item": [
+				{
+					"name": "/booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var actual = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response time is less than 1000ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(1000);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has a value\", function () {\r",
+									"    pm.expect(actual).to.not.be.null;\r",
+									"    pm.expect(actual).to.not.be.undefined;\r",
+									"    pm.expect(actual).to.not.be.empty;\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "492a697f-4f4c-4754-9546-6ec09c031c0b"
+							}
+						}
+					],
+					"_postman_id": "a5bd5d7c-e8da-421b-a0f1-47ca84c53bb6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{url}}/booking"
+					},
+					"response": []
+				},
+				{
+					"name": "/booking?firstname=sally&lastname=brown",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var actual = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has no value\", function () {\r",
+									"        pm.expect(actual).to.eql([]);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "b4b086c4-f0ea-4aac-bc78-dc64ccbbe52f"
+							}
+						}
+					],
+					"_postman_id": "4d9167ad-384f-41d5-9391-828751508bb9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/booking?firstname=sally&lastname=brown",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							],
+							"query": [
+								{
+									"key": "firstname",
+									"value": "sally"
+								},
+								{
+									"key": "lastname",
+									"value": "brown"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/booking?firstname=marry",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var actual = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has 4 objects\", function (){\r",
+									"    pm.expect(pm.response.json().length).to.eql(4);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "4f2d39aa-a650-40a7-8978-efd6e5be7c1b"
+							}
+						}
+					],
+					"_postman_id": "ca4e2fac-c39c-48cc-8392-f4aebed8ba3a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/booking?firstname=Mary",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							],
+							"query": [
+								{
+									"key": "firstname",
+									"value": "Mary"
+								},
+								{
+									"key": "lastname",
+									"value": "brown",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/booking?checkin=2019-03-13&checkout=2020-05-21",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var actual = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response time is less than 500ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has a value\", function () {\r",
+									"    pm.expect(actual).to.not.be.null;\r",
+									"    pm.expect(actual).to.not.be.undefined;\r",
+									"    pm.expect(actual).to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response has 2 objects\", function (){\r",
+									"    pm.expect(pm.response.json().length).to.eql(2);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"id": "eba56040-81ba-4074-9b96-a12c99ef8be0"
+							}
+						}
+					],
+					"_postman_id": "19d97974-7325-4784-a3ba-be60cba595eb",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/booking?checkin=2018-01-01&checkout=2020-01-01",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"booking"
+							],
+							"query": [
+								{
+									"key": "checkin",
+									"value": "2018-01-01"
+								},
+								{
+									"key": "checkout",
+									"value": "2020-01-01"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/booking/1",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Define the expected JSON schema\r",
+									"const expectedSchema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"firstname\": { \"type\": \"string\" },\r",
+									"        \"lastname\": { \"type\": \"string\" },\r",
+									"        \"totalprice\": { \"type\": \"number\" },\r",
+									"        \"depositpaid\": { \"type\": \"boolean\" },\r",
+									"        \"bookingdates\": {\r",
+									"            \"type\": \"object\",\r",
+									"            \"properties\": {\r",
+									"                \"checkin\": { \"type\": \"string\", \"format\": \"date\" },\r",
+									"                \"checkout\": { \"type\": \"string\", \"format\": \"date\" }\r",
+									"            },\r",
+									"            \"required\": [\"checkin\", \"checkout\"]\r",
+									"        }\r",
+									"    },\r",
+									"    \"required\": [\"firstname\", \"lastname\", \"totalprice\", \"depositpaid\", \"bookingdates\"]\r",
+									"};\r",
+									"\r",
+									"// Get the response JSON\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"// Validate the response against the expected schema\r",
+									"pm.test(\"Response has the correct JSON schema\", () => {\r",
+									"    const Ajv = require(\"ajv\");\r",
+									"    const ajv = new Ajv();\r",
+									"    const valid = ajv.validate(expectedSchema, responseJson);\r",
+									"    \r",
+									"    if (!valid) {\r",
+									"        pm.expect(valid, ajv.errorsText(ajv.errors));\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"// Check the status code is 200 OK\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "3510d114-5cfd-410d-a917-a986c9704336"
+							}
+						}
+					],
+					"_postman_id": "f6492ae5-a7b2-41a0-bdb0-5ea2df78cce6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "{{url}}/booking/1"
+					},
+					"response": []
+				},
+				{
+					"name": "/booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Define the expected JSON schema\r",
+									"const expectedSchema = {\r",
+									"    \"type\": \"object\",\r",
+									"    \"properties\": {\r",
+									"        \"bookingid\": { \"type\": \"number\" }\r",
+									"    },\r",
+									"    \"required\": [\"bookingid\"]\r",
+									"};\r",
+									"\r",
+									"// Validate the response against the expected schema\r",
+									"pm.test(\"Response has the correct JSON schema\", () => {\r",
+									"    const Ajv = require(\"ajv\");\r",
+									"    const ajv = new Ajv();\r",
+									"    const valid = ajv.validate(expectedSchema, pm.response.json());\r",
+									"    \r",
+									"    if (!valid) {\r",
+									"        pm.expect(valid, ajv.errorsText(ajv.errors));\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"//Check if specific values in the response match the expected values\r",
+									"pm.test(\"Check response values\", () => {\r",
+									"    const responseBody = pm.response.json();\r",
+									"    pm.expect(responseBody.booking.firstname).to.eql(\"Jim\");\r",
+									"    pm.expect(responseBody.booking.lastname).to.eql(\"Brown\");\r",
+									"    pm.expect(responseBody.booking.totalprice).to.eql(111);\r",
+									"    pm.expect(responseBody.booking.depositpaid).to.be.true;\r",
+									"    pm.expect(responseBody.booking.bookingdates.checkin).to.eql(\"2018-01-01\");\r",
+									"    pm.expect(responseBody.booking.bookingdates.checkout).to.eql(\"2019-01-01\");\r",
+									"    pm.expect(responseBody.booking.additionalneeds).to.eql(\"Breakfast\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"id": "5f0526fc-a2cf-4436-a784-d50aae3d47f9"
+							}
+						}
+					],
+					"_postman_id": "067f0b5a-f159-4e74-9ae4-d456ac548632",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"Jim\",\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : 111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2018-01-01\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {}
+						},
+						"url": "{{url}}/booking"
+					},
+					"response": []
+				}
+			],
+			"_postman_id": "699c3d16-1575-47fa-b8be-9964b88cff4a"
+		},
+		{
+			"name": "/ping",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Check status code and response body\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.expect(pm.response.text()).to.eql(\"Created\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Content-Type header is text/plain; charset=utf-8\", function () {\r",
+							"    pm.response.to.have.header(\"Content-Type\", \"text/plain; charset=utf-8\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is within acceptable range\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response body length is within limits\", function () {\r",
+							"    const responseLength = pm.response.text().length;\r",
+							"    pm.expect(responseLength).to.be.below(100); // Adjust the limit as needed\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"id": "ead482d1-fe62-400e-b0b8-c4fb6faf964e"
+					}
+				}
+			],
+			"_postman_id": "ab5dcba2-efd2-4056-a6b5-21652fed4282",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "{{url}}/ping"
+			},
+			"response": []
+		}
+	]
+}
